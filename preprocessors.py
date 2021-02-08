@@ -146,9 +146,7 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
         X = X.copy()
 
         # get dummies
-        dummies_df = pd.get_dummies(X, drop_first=True)
-        dummies_vars = [var for var in self.dummies if var in dummies_df.columns]
-        X = pd.concat([X, dummies_df[dummies_vars]], axis=1)
+        X = pd.concat([X, pd.get_dummies(X[self.variables], drop_first=True)], axis=1)
 
         # drop original variables
         X.drop(labels=self.variables, axis=1, inplace=True)
